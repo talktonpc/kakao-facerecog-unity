@@ -1,0 +1,6 @@
+framework module FaceRecog_objc {
+  umbrella header "FaceRecog_objc.h"
+
+  export *
+  module * { export * }
+}
