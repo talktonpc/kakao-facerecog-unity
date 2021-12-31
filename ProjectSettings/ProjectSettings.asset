@@ -99,7 +99,7 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
-  fullscreenMode: 1
+  fullscreenMode: 3
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -153,6 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Standalone: com.utopsoft.janus-unity
     iPhone: com.utopsoft.janus-unity
   buildNumber:
     Standalone: 0
@@ -352,7 +353,8 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: 
+  cameraUsageDescription: "\uD504\uB85C\uADF8\uB7A8\uC5D0\uC11C \uC5BC\uAD74\uC778\uC2DD\uC744
+    \uC704\uD574 \uCE74\uBA54\uB77C\uB97C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
   locationUsageDescription: 
   microphoneUsageDescription: 
   bluetoothUsageDescription: 
