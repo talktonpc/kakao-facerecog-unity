@@ -99,7 +99,7 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
-  fullscreenMode: 3
+  fullscreenMode: 1
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -135,7 +135,9 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 4800000, guid: e7c77f6eaab324a819efdc13b8125a39, type: 3}
+  - {fileID: -7425400731575172816, guid: f00bfe08d7ee147ca996097891f4b0b4, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -153,7 +155,6 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.utopsoft.janus-unity
     iPhone: com.utopsoft.janus-unity
   buildNumber:
     Standalone: 0
@@ -353,8 +354,8 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: "\uD504\uB85C\uADF8\uB7A8\uC5D0\uC11C \uC5BC\uAD74\uC778\uC2DD\uC744
-    \uC704\uD574 \uCE74\uBA54\uB77C\uB97C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
+  cameraUsageDescription: "\uBCF8 \uD504\uB85C\uADF8\uB7A8\uC740 \uCE74\uBA54\uB77C
+    \uC811\uADFC\uC774 \uD544\uC694\uD569\uB2C8\uB2E4."
   locationUsageDescription: 
   microphoneUsageDescription: 
   bluetoothUsageDescription: 
@@ -592,7 +593,8 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    4: UNITY_XR_ARKIT_LOADER_ENABLED
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

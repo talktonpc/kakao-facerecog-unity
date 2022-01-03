@@ -29,12 +29,113 @@ namespace Janus {
             NativeInterface.SetupSDK();
         }
 
-        internal void OnApiOk(string result) {
-            API._OnApiOk(result);
+        int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
+            return NativeInterface.TrackFace_RGBA(img, width, height, angle_in_degree, bRecognize);
         }
 
-        internal void OnApiError(string result) {
-            API._OnApiError(result);
+        int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
+        {
+            return NativeInterface.TrackFace_BGRA(img, width, height, angle_in_degree, bRecognize);
+        }
+
+        int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
+        {
+            return NativeInterface.TrackFace_RGB(img, width, height, angle_in_degree, bRecognize);
+        }
+
+        int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
+            return NativeInterface.DetectFace_BGRA(img, width, height, bRecognize);
+        }
+
+        int GetFacialPoints(int idx, ref float[] pts) {
+            return NativeInterface.GetFacialPoints(idx, pts);
+        }
+
+        int GetAlignmentPoints(int idx, ref float[] pts) {
+            return NativeInterface.GetAlignmentPoints(idx, pts);
+        }
+        int GetFacialRect(int idx, ref int[] pRect) {
+            return NativeInterface.GetFacialRect(idx, pRect);
+        }
+        int GetFDRect(int idx, ref int[] pRect) {
+            return NativeInterface.GetFDRect(idx, pRect);
+        }
+        int GetFacialProb(int idx) {
+            return NativeInterface.GetFacialProb(idx);
+        }
+
+        int GetFaceFeature(int idx, ref float[] feature) {
+            return NativeInterface.GetFaceFeature(idx, feature);
+        }
+        int GetFaceAngles(int idx, ref float[] angles) {
+            return NativeInterface.GetFaceAngles(idx, angles);
+        }
+        int GetID(int idx) {
+            return NativeInterface.GetID(idx);
+        }
+
+        float GetLiveness(int idx) {
+            return NativeInterface.GetLiveness(idx);
+        }
+        float GetMaskLevel(int idx) {
+            return NativeInterface.GetMaskLevel(idx);
+        }
+        int GetAttributeEnabled(bool b) {
+            return NativeInterface.GetAttributeEnabled(b);
+        }
+
+        int GetCurrentPowerState() {
+            return NativeInterface.GetCurrentPowerState();
+        }
+        void SetPowerControl(bool b) {
+            NativeInterface.SetPowerControl(b);
+        }
+
+       // int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
+       //     return NativeInterface.LoadGalleryFeature(ref gallery_features, numOfIdx);
+       // }
+        //int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
+        //    return NativeInterface.AddGalleryFeature(ref gallery_features, numOfIdx);
+       // }
+        string GetRecognizedName(int idx) {
+            return NativeInterface.GetRecognizedName(idx);
+        }
+        string GetPipelineLog() {
+            return NativeInterface.GetPipelineLog();
+        }
+        string GetFaceLog(int idx) {
+            return NativeInterface.GetFaceLog(idx);
+        }
+        int SetFaceRecognitionThreshold(float value) {
+            return NativeInterface.SetFaceRecognitionThreshold(value);
+        }
+        void SetFaceDetectionThreshold(float value) {
+            NativeInterface.SetFaceDetectionThreshold(value);
+        }
+        int SetMaximumFaceNumber(int cnt) {
+            return NativeInterface.SetMaximumFaceNumber(cnt);
+        }
+        int SetMinimumFaceSize(int size) {
+            return NativeInterface.SetMinimumFaceSize(size);
+        }
+        int ClearDB() {
+            return NativeInterface.ClearDB();
+        }
+        int EraseFaceIDFromDB(string pID) {
+            return NativeInterface.EraseFaceIDFromDB(pID);
+        }
+
+        int DoReInit() {
+            return NativeInterface.DoReInit();
+        }
+        int DoFinalize() {
+            return NativeInterface.DoFinalize();
+        }
+        void DoClose() {
+            NativeInterface.DoClose();
+        }
+        string GetVersion() {
+            return NativeInterface.GetVersion();
         }
     }
 }
