@@ -30,51 +30,51 @@ namespace Janus {
         }
 
         int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
-            return NativeInterface.TrackFace_RGBA(ref img, width, height, angle_in_degree, bRecognize);
+            return NativeInterface.TrackFace_RGBA(img, width, height, angle_in_degree, bRecognize);
         }
 
         int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
         {
-            return NativeInterface.TrackFace_BGRA(ref img, width, height, angle_in_degree, bRecognize);
+            return NativeInterface.TrackFace_BGRA(img, width, height, angle_in_degree, bRecognize);
         }
 
         int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
         {
-            return NativeInterface.TrackFace_RGB(ref img, width, height, angle_in_degree, bRecognize);
+            return NativeInterface.TrackFace_RGB(img, width, height, angle_in_degree, bRecognize);
         }
 
         int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
-            return NativeInterface.DetectFace_BGRA(ref img, width, height, bRecognize);
+            return NativeInterface.DetectFace_BGRA(img, width, height, bRecognize);
         }
 
         int GetFacialPoints(int idx, ref float[] pts) {
-            return NativeInterface.GetFacialPoints(idx, ref pts);
+            return NativeInterface.GetFacialPoints(idx, pts);
         }
 
         int GetAlignmentPoints(int idx, ref float[] pts) {
-            return NativeInterface.GetAlignmentPoints(idx, ref pts);
+            return NativeInterface.GetAlignmentPoints(idx, pts);
         }
         int GetFacialRect(int idx, ref int[] pRect) {
-            return NativeInterface.GetFacialRect(idx, ref pRect);
+            return NativeInterface.GetFacialRect(idx, pRect);
         }
         int GetFDRect(int idx, ref int[] pRect) {
-            return NativeInterface.GetFDRect(idx, ref pRect);
+            return NativeInterface.GetFDRect(idx, pRect);
         }
         int GetFacialProb(int idx) {
             return NativeInterface.GetFacialProb(idx);
         }
 
         int GetFaceFeature(int idx, ref float[] feature) {
-            return NativeInterface.GetFaceFeature(idx, ref feature);
+            return NativeInterface.GetFaceFeature(idx, feature);
         }
         int GetFaceAngles(int idx, ref float[] angles) {
-            return NativeInterface.GetFaceAngles(idx, ref angles);
+            return NativeInterface.GetFaceAngles(idx, angles);
         }
         int GetID(int idx) {
             return NativeInterface.GetID(idx);
         }
 
-        int GetLiveness(int idx) {
+        float GetLiveness(int idx) {
             return NativeInterface.GetLiveness(idx);
         }
         float GetMaskLevel(int idx) {
@@ -91,12 +91,12 @@ namespace Janus {
             NativeInterface.SetPowerControl(b);
         }
 
-        int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
-            return NativeInterface.LoadGalleryFeature(ref gallery_features, numOfIdx);
-        }
-        int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
-            return NativeInterface.AddGalleryFeature(ref gallery_features, numOfIdx);
-        }
+       // int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
+       //     return NativeInterface.LoadGalleryFeature(ref gallery_features, numOfIdx);
+       // }
+        //int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
+        //    return NativeInterface.AddGalleryFeature(ref gallery_features, numOfIdx);
+       // }
         string GetRecognizedName(int idx) {
             return NativeInterface.GetRecognizedName(idx);
         }

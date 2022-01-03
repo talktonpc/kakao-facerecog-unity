@@ -11,63 +11,6 @@ namespace Janus {
             var _ = JanusSDK.Instance;
         }
 
-        //===================================================================================================================================
-        // c/c++ APIs
-        //===================================================================================================================================
-
-        // Init
-        internal static void janus_init();
-
-        // Track
-        internal static int trackFace_RGBA(unsigned char* img, int width, int height, int angle_in_degree, bool bRecognize);
-        internal static int trackFace_BGRA(unsigned char* img, int width, int height, int angle_in_degree, bool bRecognize);
-        internal static int trackFace_RGB(unsigned char* img, int width, int height, int angle_in_degree, bool bRecognize);
-
-        // Detect
-        internal static int detectFace_BGRA(unsigned char* img, int width, int height, bool bRecognize);
-
-        // Alignment
-        internal static int getFacialPoints(int idx, float* pts);
-        internal static int getAlignmentPoints(int idx, float* pts);
-        internal static int getFacialRect(int idx, int* pRect);
-        internal static int getFDRect(int idx, int* pRect);
-        internal static int getFacialProb(int idx);
-
-        // Recognition
-        internal static int getFaceFeature(int idx, float* feature);
-        internal static int getFaceAngles(int idx, float* angles);
-        internal static int getID(int idx);
-
-        // Attribute
-        internal static float getLiveness(int idx);
-        internal static float getMaskLevel(int idx);
-        internal static int setAttributeEnabled(bool b);
-
-        // power state
-        internal static int getCurrentPowerState();
-        internal static void setPowerControl(bool b);
-
-        // WTM
-        internal static int loadGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx);
-        internal static int addGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx);
-        internal static char* getRecognizedName(int idx);
-        internal static char* getPipelineLog();
-        internal static char* getFaceLog(int idx);
-        internal static int setFaceRecognitionThreshold(float value);
-        internal static void setFaceDetectionThreshold(float value);
-        internal static int setMaximumFaceNumber(int cnt);
-        internal static int setMinimumFaceSize(int size);
-        internal static int clearDB();
-        internal static int eraseFaceIDFromDB(char* pID);
-
-        // Basic
-        internal static int doReInit();
-        internal static int doFinalize();
-        internal static void doClose();
-
-        // version
-        internal static char* getVersion();
-
         private static bool IsInvalidRuntime(string identifier) {
             return Helpers.IsInvalidRuntime(identifier, RuntimePlatform.IPhonePlayer);
         }
@@ -76,6 +19,57 @@ namespace Janus {
         // C# APIs
         //===================================================================================================================================
         // Init
+        [DllImport("__Internal")] private static extern void janus_init();
+        // Track
+        [DllImport("__Internal")] private static extern int trackFace_RGBA([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize);
+        [DllImport("__Internal")] private static extern int trackFace_BGRA([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize);
+        [DllImport("__Internal")] private static extern int trackFace_RGB([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize);
+
+        // Detect
+        [DllImport("__Internal")] private static extern int detectFace_BGRA([In] byte[] img, int width, int height, bool bRecognize);
+
+        // Alignment
+        [DllImport("__Internal")] private static extern int getFacialPoints(int idx, [Out] float[] pts);
+        [DllImport("__Internal")] private static extern int getAlignmentPoints(int idx, [Out] float[] pts);
+        [DllImport("__Internal")] private static extern int getFacialRect(int idx, [Out] int[] pRect);
+        [DllImport("__Internal")] private static extern int getFDRect(int idx, [Out] int[] pRect);
+        [DllImport("__Internal")] private static extern int getFacialProb(int idx);
+
+        // Recognition
+        [DllImport("__Internal")] private static extern int getFaceFeature(int idx, [Out] float[] feature);
+        [DllImport("__Internal")] private static extern int getFaceAngles(int idx, [Out] float[] angles);
+        [DllImport("__Internal")] private static extern int getID(int idx);
+
+        // Attribute
+        [DllImport("__Internal")] private static extern float getLiveness(int idx);
+        [DllImport("__Internal")] private static extern float getMaskLevel(int idx);
+        [DllImport("__Internal")] private static extern int setAttributeEnabled(bool b);
+
+        // power state
+        [DllImport("__Internal")] private static extern int getCurrentPowerState();
+        [DllImport("__Internal")] private static extern void setPowerControl(bool b);
+
+        // WTM
+        //[DllImport("__Internal")] private static extern int loadGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx);
+        //[DllImport("__Internal")] private static extern int addGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx);
+        [DllImport("__Internal")] private static extern string getRecognizedName(int idx);
+        [DllImport("__Internal")] private static extern string getPipelineLog();
+        [DllImport("__Internal")] private static extern string getFaceLog(int idx);
+        [DllImport("__Internal")] private static extern int setFaceRecognitionThreshold(float value);
+        [DllImport("__Internal")] private static extern void setFaceDetectionThreshold(float value);
+        [DllImport("__Internal")] private static extern int setMaximumFaceNumber(int cnt);
+        [DllImport("__Internal")] private static extern int setMinimumFaceSize(int size);
+        [DllImport("__Internal")] private static extern int clearDB();
+        [DllImport("__Internal")] private static extern int eraseFaceIDFromDB(string pID);
+
+        // Basic
+        [DllImport("__Internal")] private static extern int doReInit();
+        [DllImport("__Internal")] private static extern int doFinalize();
+        [DllImport("__Internal")] private static extern void doClose();
+
+        // version
+        [DllImport("__Internal")] private static extern string getVersion();
+
         internal static void SetupSDK() {
             if (!Application.isPlaying) { return; }
             if (IsInvalidRuntime(null)) { return; }
@@ -85,34 +79,34 @@ namespace Janus {
 
 
         // Track
-        internal static int TrackFace_RGBA(unsigned char* img, int width, int height, int angle_in_degree, bool bRecognize) {
+        internal static int TrackFace_RGBA([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
             return trackFace_RGBA(img, width, height, angle_in_degree, bRecognize);
         }
 
-        internal static int TrackFace_BGRA(unsigned char* img, int width, int height, int angle_in_degree, bool bRecognize) {
+        internal static int TrackFace_BGRA([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
             return trackFace_BGRA(img, width, height, angle_in_degree, bRecognize);
         }
 
-        internal static int TrackFace_RGB(unsigned char* img, int width, int height, int angle_in_degree, bool bRecognize) {
+        internal static int TrackFace_RGB([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
             return trackFace_RGB(img, width, height, angle_in_degree, bRecognize);
         }
 
         // Detect
-        internal static int DetectFace_BGRA(unsigned char* img, int width, int height, bool bRecognize) {
+        internal static int DetectFace_BGRA([In] byte[] img, int width, int height, bool bRecognize) {
             return detectFace_BGRA(img, width, height, bRecognize);
         }
 
         // Alignment
-        internal static int GetFacialPoints(int idx, float* pts) {
+        internal static int GetFacialPoints(int idx, [Out] float[] pts) {
             return getFacialPoints(idx, pts);
         }
-        internal static int GetAlignmentPoints(int idx, float* pts) {
+        internal static int GetAlignmentPoints(int idx, [Out] float[] pts) {
             return getAlignmentPoints(idx, pts);
         }
-        internal static int GetFacialRect(int idx, int* pRect) {
+        internal static int GetFacialRect(int idx, [Out] int[] pRect) {
             return getFacialRect(idx, pRect);
         }
-        internal static int GetFDRect(int idx, int* pRect) {
+        internal static int GetFDRect(int idx, [Out] int[] pRect) {
             return getFDRect(idx, pRect);
         }
         internal static int GetFacialProb(int idx) {
@@ -120,10 +114,10 @@ namespace Janus {
         }
 
         // Recognition
-        internal static int GetFaceFeature(int idx, float* feature) {
+        internal static int GetFaceFeature(int idx, [Out] float[] feature) {
             return getFaceFeature(idx, feature);
         }
-        internal static int GetFaceAngles(int idx, float* angles) {
+        internal static int GetFaceAngles(int idx, [Out] float[] angles) {
             return getFaceAngles(idx, angles);
         }
         internal static int GetID(int idx) {
@@ -150,26 +144,26 @@ namespace Janus {
         }
 
         // WTM
-        internal static int LoadGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx) {
-            return loadGalleryFeature(gallery_features, numOfIdx);
-        }
-        internal static int AddGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx) {
-            return addGalleryFeature(gallery_features, numOfIdx);
-        }
-        internal static char* GetRecognizedName(int idx) {
+        //internal static int LoadGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx) {
+        //    return loadGalleryFeature(gallery_features, numOfIdx);
+        //}
+        //internal static int AddGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx) {
+        //    return addGalleryFeature(gallery_features, numOfIdx);
+        //}
+        internal static string GetRecognizedName(int idx) {
             return getRecognizedName(idx);
         }
-        internal static char* GetPipelineLog() {
-            return getRecognizedName(getPipelineLog);
+        internal static string GetPipelineLog() {
+            return GetPipelineLog();
         }
-        internal static char* GetFaceLog(int idx) {
+        internal static string GetFaceLog(int idx) {
             return getFaceLog(idx);
         }
         internal static int SetFaceRecognitionThreshold(float value) {
             return setFaceRecognitionThreshold(value);
         }
         internal static void SetFaceDetectionThreshold(float value) {
-            setFaceDetectionThreshold(value)
+            setFaceDetectionThreshold(value);
         }
         internal static int SetMaximumFaceNumber(int cnt) {
             return setMaximumFaceNumber(cnt);
@@ -180,7 +174,7 @@ namespace Janus {
         internal static int ClearDB() {
             return clearDB();
         }
-        internal static int EraseFaceIDFromDB(char* pID) {
+        internal static int EraseFaceIDFromDB(string pID) {
             return eraseFaceIDFromDB(pID);
         }
         // Basic
@@ -191,11 +185,11 @@ namespace Janus {
             return doFinalize();
         }
         internal static void DoClose() {
-            return doClose();
+            doClose();
         }
 
         // version
-        internal static char* GetVersion() {
+        internal static string GetVersion() {
             return getVersion();
         }
     } 
