@@ -25,116 +25,117 @@ namespace Janus {
             }
         }
 
-        void SetupSDK() {
+        public void SetupSDK() {
             NativeInterface.SetupSDK();
         }
 
-        int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
+        public int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
             return NativeInterface.TrackFace_RGBA(img, width, height, angle_in_degree, bRecognize);
         }
 
-        int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
+        public int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
         {
             return NativeInterface.TrackFace_BGRA(img, width, height, angle_in_degree, bRecognize);
         }
 
-        int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
+        public int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
         {
             return NativeInterface.TrackFace_RGB(img, width, height, angle_in_degree, bRecognize);
         }
 
-        int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
+        public int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
             return NativeInterface.DetectFace_BGRA(img, width, height, bRecognize);
         }
 
-        int GetFacialPoints(int idx, ref float[] pts) {
+        public int GetFacialPoints(int idx, ref float[] pts) {
             return NativeInterface.GetFacialPoints(idx, pts);
         }
 
-        int GetAlignmentPoints(int idx, ref float[] pts) {
+        public int GetAlignmentPoints(int idx, ref float[] pts) {
             return NativeInterface.GetAlignmentPoints(idx, pts);
         }
-        int GetFacialRect(int idx, ref int[] pRect) {
+        public int GetFacialRect(int idx, ref int[] pRect) {
             return NativeInterface.GetFacialRect(idx, pRect);
         }
         int GetFDRect(int idx, ref int[] pRect) {
             return NativeInterface.GetFDRect(idx, pRect);
         }
-        int GetFacialProb(int idx) {
+        public int GetFacialProb(int idx) {
             return NativeInterface.GetFacialProb(idx);
         }
 
-        int GetFaceFeature(int idx, ref float[] feature) {
+        public int GetFaceFeature(int idx, ref float[] feature) {
             return NativeInterface.GetFaceFeature(idx, feature);
         }
-        int GetFaceAngles(int idx, ref float[] angles) {
+        public int GetFaceAngles(int idx, ref float[] angles) {
             return NativeInterface.GetFaceAngles(idx, angles);
         }
-        int GetID(int idx) {
+        public int GetID(int idx) {
             return NativeInterface.GetID(idx);
         }
 
-        float GetLiveness(int idx) {
+        public float GetLiveness(int idx) {
             return NativeInterface.GetLiveness(idx);
         }
-        float GetMaskLevel(int idx) {
+        public float GetMaskLevel(int idx) {
             return NativeInterface.GetMaskLevel(idx);
         }
-        int GetAttributeEnabled(bool b) {
+        public int GetAttributeEnabled(bool b) {
             return NativeInterface.GetAttributeEnabled(b);
         }
 
-        int GetCurrentPowerState() {
+        public int GetCurrentPowerState() {
             return NativeInterface.GetCurrentPowerState();
         }
-        void SetPowerControl(bool b) {
+        public void SetPowerControl(bool b) {
             NativeInterface.SetPowerControl(b);
         }
 
-       // int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
-       //     return NativeInterface.LoadGalleryFeature(ref gallery_features, numOfIdx);
-       // }
-        //int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
+        // NOT SUPPORTED YET!
+        // public int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
+        //     return NativeInterface.LoadGalleryFeature(ref gallery_features, numOfIdx);
+        // }
+        // public int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
         //    return NativeInterface.AddGalleryFeature(ref gallery_features, numOfIdx);
-       // }
-        string GetRecognizedName(int idx) {
+        // }
+        public string GetRecognizedName(int idx) {
             return NativeInterface.GetRecognizedName(idx);
         }
-        string GetPipelineLog() {
+        public string GetPipelineLog() {
             return NativeInterface.GetPipelineLog();
         }
-        string GetFaceLog(int idx) {
+        public string GetFaceLog(int idx) {
             return NativeInterface.GetFaceLog(idx);
         }
-        int SetFaceRecognitionThreshold(float value) {
+        public int SetFaceRecognitionThreshold(float value) {
             return NativeInterface.SetFaceRecognitionThreshold(value);
         }
-        void SetFaceDetectionThreshold(float value) {
+        public void SetFaceDetectionThreshold(float value) {
             NativeInterface.SetFaceDetectionThreshold(value);
         }
-        int SetMaximumFaceNumber(int cnt) {
+        public int SetMaximumFaceNumber(int cnt) {
             return NativeInterface.SetMaximumFaceNumber(cnt);
         }
-        int SetMinimumFaceSize(int size) {
+        public int SetMinimumFaceSize(int size) {
             return NativeInterface.SetMinimumFaceSize(size);
         }
-        int ClearDB() {
+        public int ClearDB() {
             return NativeInterface.ClearDB();
         }
-        int EraseFaceIDFromDB(string pID) {
+        public int EraseFaceIDFromDB(string pID) {
             return NativeInterface.EraseFaceIDFromDB(pID);
         }
 
-        int DoReInit() {
+        public int DoReInit() {
             return NativeInterface.DoReInit();
         }
-        int DoFinalize() {
+        public int DoFinalize() {
             return NativeInterface.DoFinalize();
         }
-        void DoClose() {
+        public void DoClose() {
             NativeInterface.DoClose();
         }
-        string GetVersion() {
+        unsafe public string GetVersion() {
             return NativeInterface.GetVersion();
         }
     }

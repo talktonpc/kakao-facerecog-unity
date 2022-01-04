@@ -20,6 +20,7 @@ namespace Janus {
         //===================================================================================================================================
         // Init
         [DllImport("__Internal")] private static extern void janus_init();
+
         // Track
         [DllImport("__Internal")] private static extern int trackFace_RGBA([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize);
         [DllImport("__Internal")] private static extern int trackFace_BGRA([In] byte[] img, int width, int height, int angle_in_degree, bool bRecognize);
@@ -50,8 +51,6 @@ namespace Janus {
         [DllImport("__Internal")] private static extern void setPowerControl(bool b);
 
         // WTM
-        //[DllImport("__Internal")] private static extern int loadGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx);
-        //[DllImport("__Internal")] private static extern int addGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx);
         [DllImport("__Internal")] private static extern string getRecognizedName(int idx);
         [DllImport("__Internal")] private static extern string getPipelineLog();
         [DllImport("__Internal")] private static extern string getFaceLog(int idx);
@@ -68,7 +67,7 @@ namespace Janus {
         [DllImport("__Internal")] private static extern void doClose();
 
         // version
-        [DllImport("__Internal")] private static extern string getVersion();
+        [DllImport("__Internal")] private static extern string janus_version();
 
         internal static void SetupSDK() {
             if (!Application.isPlaying) { return; }
@@ -144,12 +143,6 @@ namespace Janus {
         }
 
         // WTM
-        //internal static int LoadGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx) {
-        //    return loadGalleryFeature(gallery_features, numOfIdx);
-        //}
-        //internal static int AddGalleryFeature(galleryInfoWrapper* gallery_features, int numOfIdx) {
-        //    return addGalleryFeature(gallery_features, numOfIdx);
-        //}
         internal static string GetRecognizedName(int idx) {
             return getRecognizedName(idx);
         }
@@ -190,7 +183,7 @@ namespace Janus {
 
         // version
         internal static string GetVersion() {
-            return getVersion();
+            return janus_version();
         }
     } 
 }

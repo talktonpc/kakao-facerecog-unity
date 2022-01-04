@@ -73,7 +73,7 @@ JANUS_SDK_EXTERNC int doFinalize();
 JANUS_SDK_EXTERNC void doClose();
 
 // version
-JANUS_SDK_EXTERNC char* getVersion();
+JANUS_SDK_EXTERNC char* janus_version();
 
 //==============================================================================================================================
 JANUS_SDK_EXTERNC void janus_sdk_UnitySendMessage(const char *name, const char *method, NSString *params) {
@@ -213,7 +213,11 @@ void doClose() {
 }
 
 // version
-char* getVersion() {
+// char* getVersion() {
+//     NSString* ns = [jo getVersion];
+//     return JanusSDKMakeCString(ns);
+// }
+char* janus_version() {
     NSString* ns = [jo getVersion];
     return JanusSDKMakeCString(ns);
 }

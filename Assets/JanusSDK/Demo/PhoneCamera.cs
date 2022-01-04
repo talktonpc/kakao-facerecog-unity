@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Janus;
 
 public class PhoneCamera : MonoBehaviour
 {
@@ -12,9 +13,22 @@ public class PhoneCamera : MonoBehaviour
     public RawImage _background;
     public AspectRatioFitter fit;
 
+    public JanusSDK janusSDK;
+
 
     void Start()
     {
+        //===================================
+        //iOS Janus SDK Initialize ...
+        //===================================
+        //janusSDK.SetupSDK();
+
+        //===================================
+        //Confirm iOS Janus SDK Initialized.
+        //===================================
+        string ver = janusSDK.GetVersion();
+        Debug.Log("SDK TEST: " + ver);
+
         _defaultBackground = _background.texture;
 
         WebCamDevice[] devices = WebCamTexture.devices;
@@ -61,5 +75,17 @@ public class PhoneCamera : MonoBehaviour
 
         int orient = -_frontCam.videoRotationAngle;
         _background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
+    }
+
+    private void LateUpdate()
+    {
+        if (!_cameraAvailable)
+        {
+            return;
+        }
+
+
+
+
     }
 }
