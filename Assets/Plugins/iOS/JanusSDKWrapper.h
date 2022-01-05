@@ -49,6 +49,10 @@
                     width:(int)width
                 height:(int)height
             bRecognize:(Boolean)bRecognize;
+    - (int)detectFace_RGBA:(unsigned char *)img
+                width:(int)width
+            height:(int)height
+        bRecognize:(Boolean)bRecognize;
 
     // Alignment
     - (int)getFacialPoints:(int)idx pts:(float *)pts;

@@ -3,12 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Janus;
+using System.Runtime.InteropServices;
+
+[StructLayout(LayoutKind.Explicit)]
+public struct Color32Array
+{
+    [FieldOffset(0)]
+    public byte[] byteArray;
+
+    [FieldOffset(0)]
+    public Color32[] colors;
+}
 
 public class PhoneCamera : MonoBehaviour
 {
     private bool _cameraAvailable = false;
     private WebCamTexture _frontCam = null;
-    private Texture _defaultBackground = null;
+    //private Texture _defaultBackground = null;
+    private Texture2D texture = null;
 
     public RawImage _background;
     public AspectRatioFitter fit;
@@ -29,7 +41,13 @@ public class PhoneCamera : MonoBehaviour
         string ver = janusSDK.GetVersion();
         Debug.Log("SDK TEST: " + ver);
 
-        _defaultBackground = _background.texture;
+        janusSDK.SetPowerControl(false);
+        janusSDK.SetMaximumFaceNumber(1);
+        janusSDK.SetMinimumFaceSize(100);
+        janusSDK.SetFaceDetectionThreshold(0.9f);
+
+
+        //_defaultBackground = _background.texture;
 
         WebCamDevice[] devices = WebCamTexture.devices;
 
@@ -55,8 +73,10 @@ public class PhoneCamera : MonoBehaviour
 
         Debug.Log("Camera play ...");
 
+        texture = new Texture2D(_frontCam.width, _frontCam.height, TextureFormat.ARGB32, false);
+
         _frontCam.Play();
-        _background.texture = _defaultBackground = _frontCam;
+        _background.material.mainTexture = _frontCam;
         _cameraAvailable = true;
     }
 
@@ -84,8 +104,15 @@ public class PhoneCamera : MonoBehaviour
             return;
         }
 
+        int width = _frontCam.width;
+        int height = _frontCam.height;
 
+        Color32Array colorArray = new Color32Array();
+        colorArray.colors = new Color32[width * height];
+        _frontCam.GetPixels32(colorArray.colors);
 
+        int numOfFaces = janusSDK.DetectFace_BGRA(ref colorArray.byteArray, width, height, false);
 
+        Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
     }
 }
