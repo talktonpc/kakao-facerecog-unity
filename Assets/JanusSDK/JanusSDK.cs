@@ -30,45 +30,40 @@ namespace Janus {
         }
 
         public int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) {
-            return NativeInterface.TrackFace_RGBA(img, width, height, angle_in_degree, bRecognize);
-        }
-
-        public int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
-        {
-            return NativeInterface.TrackFace_BGRA(img, width, height, angle_in_degree, bRecognize);
+            return NativeInterface.TrackFace_RGBA(ref img, width, height, angle_in_degree, bRecognize);
         }
 
         public int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize)
         {
-            return NativeInterface.TrackFace_RGB(img, width, height, angle_in_degree, bRecognize);
+            return NativeInterface.TrackFace_RGB(ref img, width, height, angle_in_degree, bRecognize);
         }
 
         public int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
-            return NativeInterface.DetectFace_BGRA(img, width, height, bRecognize);
+            return NativeInterface.DetectFace_BGRA(ref img, width, height, bRecognize);
         }
 
         public int GetFacialPoints(int idx, ref float[] pts) {
-            return NativeInterface.GetFacialPoints(idx, pts);
+            return NativeInterface.GetFacialPoints(idx, ref pts);
         }
 
         public int GetAlignmentPoints(int idx, ref float[] pts) {
-            return NativeInterface.GetAlignmentPoints(idx, pts);
+            return NativeInterface.GetAlignmentPoints(idx, ref pts);
         }
         public int GetFacialRect(int idx, ref int[] pRect) {
-            return NativeInterface.GetFacialRect(idx, pRect);
+            return NativeInterface.GetFacialRect(idx, ref pRect);
         }
         int GetFDRect(int idx, ref int[] pRect) {
-            return NativeInterface.GetFDRect(idx, pRect);
+            return NativeInterface.GetFDRect(idx, ref pRect);
         }
         public int GetFacialProb(int idx) {
             return NativeInterface.GetFacialProb(idx);
         }
 
         public int GetFaceFeature(int idx, ref float[] feature) {
-            return NativeInterface.GetFaceFeature(idx, feature);
+            return NativeInterface.GetFaceFeature(idx, ref feature);
         }
         public int GetFaceAngles(int idx, ref float[] angles) {
-            return NativeInterface.GetFaceAngles(idx, angles);
+            return NativeInterface.GetFaceAngles(idx, ref angles);
         }
         public int GetID(int idx) {
             return NativeInterface.GetID(idx);
