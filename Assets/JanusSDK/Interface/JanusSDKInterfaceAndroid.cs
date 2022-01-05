@@ -23,15 +23,19 @@ namespace Janus
 {
     internal class NativeInterface
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         static AndroidJavaObject sdkWrapper = null;
-        #else
-        static AndroidJavaObject sdkWrapper = new AndroidJavaObject("com.utop.janus.SdkWrapper");
-        #endif
+#else
+        static AndroidJavaObject sdkWrapper = new AndroidJavaObject("kakaommdl-release-1.3.8e.aar");
+#endif
 
         static NativeInterface()
         {
-            var _ = sdk.Instance;
+            var _ = JanusSDK.Instance;
+        }
+
+        private static bool IsInvalidRuntime(string identifier) {
+            return Helpers.IsInvalidRuntime(identifier, RuntimePlatform.Android);
         }
 
         internal static void SetupSDK()
