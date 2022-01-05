@@ -34,6 +34,17 @@ namespace Janus
             var _ = JanusSDK.Instance;
         }
 
+
+
+        private static void CallSdkWrapperWithIdentifier(string functionName, string identifier) {
+            if (!Application.isPlaying) { return; }
+            if (IsInvalidRuntime(identifier)) { return; }
+
+            object[] parameters = new object[1];
+            parameters[0] = identifier;
+            sdkWrapper.Call(functionName, parameters);
+        }
+
         private static bool IsInvalidRuntime(string identifier) {
             return Helpers.IsInvalidRuntime(identifier, RuntimePlatform.Android);
         }
@@ -48,18 +59,46 @@ namespace Janus
             sdkWrapper.Call("setupSdk", parameters);
         }
 
-        private static void CallSdkWrapperWithIdentifier(string functionName, string identifier) {
-            if (!Application.isPlaying) { return; }
-            if (IsInvalidRuntime(identifier)) { return; }
+        internal static int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }
+        internal static int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }
+        internal static int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }
 
-            object[] parameters = new object[1];
-            parameters[0] = identifier;
-            sdkWrapper.Call(functionName, parameters);
-        }
+        internal static int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) { return 0; }
 
-        private static bool IsInvalidRuntime(string identifier) {
-            return Helpers.IsInvalidRuntime(identifier, RuntimePlatform.Android);
-        }
+        internal static int GetFacialPoints(int idx, ref float[] pts) { return 0; }
+
+        internal static int GetAlignmentPoints(int idx, ref float[] pts) { return 0; }
+        internal static int GetFacialRect(int idx, ref int[] pRect) { return 0; }
+        internal static int GetFDRect(int idx, ref int[] pRect) { return 0; }
+        internal static int GetFacialProb(int idx) { return 0; }
+
+        internal static int GetFaceFeature(int idx, ref float[] feature) { return 0; }
+        internal static int GetFaceAngles(int idx, ref float[] angles) { return 0; }
+        internal static int GetID(int idx) { return 0; }
+
+        internal static int GetLiveness(int idx) { return 0; }
+        internal static float GetMaskLevel(int idx) { return 0; }
+        internal static int GetAttributeEnabled(bool b) { return 0; }
+
+        internal static int GetCurrentPowerState() { return 0; }
+        internal static void SetPowerControl(bool b) { }
+
+        internal static int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) { return 0; }
+        internal static int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) { return 0; }
+        internal static string GetRecognizedName(int idx) { return null; }
+        internal static string GetPipelineLog() { return null; }
+        internal static string GetFaceLog(int idx) { return null; }
+        internal static int SetFaceRecognitionThreshold(float value) { return 0; }
+        internal static void SetFaceDetectionThreshold(float value) { }
+        internal static int SetMaximumFaceNumber(int cnt) { return 0; }
+        internal static int SetMinimumFaceSize(int size) { return 0; }
+        internal static int ClearDB() { return 0; }
+        internal static int EraseFaceIDFromDB(string pID) { return 0; }
+
+        internal static int DoReInit() { return 0; }
+        internal static int DoFinalize() { return 0; }
+        internal static void DoClose() { }
+        internal static string GetVersion() { return null; }
     }
 }
 #endif
