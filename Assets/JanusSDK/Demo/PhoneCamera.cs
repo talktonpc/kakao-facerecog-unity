@@ -111,8 +111,26 @@ public class PhoneCamera : MonoBehaviour
         colorArray.colors = new Color32[width * height];
         _frontCam.GetPixels32(colorArray.colors);
 
+        // SDK API Call Test ...
         int numOfFaces = janusSDK.DetectFace_BGRA(ref colorArray.byteArray, width, height, false);
-
         Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
+
+        for (int i = 0; i < numOfFaces; i++) {
+
+            // ??? ???
+            int id = janusSDK.GetID(i);
+            Debug.Log("SDK TEST: GetID - face id : " + id);
+
+            // ??? ??
+            float[] angles = System.Array.ConvertAll(new float[3], v => 0.0f);
+
+            janusSDK.GetFaceAngles(i, ref angles);
+            Debug.Log("SDK TEST: GetFaceAngles - face angles : " + angles[0] + "/" + angles[1] + "/" + angles[2]);
+
+            // ??? ?? 5?
+            float[] facearea = System.Array.ConvertAll(new float[10], v => 0.0f);
+            janusSDK.GetAlignmentPoints(i, ref facearea);
+
+        }
     }
 }
