@@ -24,25 +24,15 @@ namespace Janus
     internal class NativeInterface
     {
 #if UNITY_EDITOR
-        static AndroidJavaObject sdkWrapper = null;
+        static AndroidJavaObject api = null;
 #else
-        static AndroidJavaObject sdkWrapper = new AndroidJavaObject("kakaommdl-release-1.3.8e.aar");
+        //static AndroidJavaObject api = new AndroidJavaObject("com.kakaoenterprise.janus.JanusFaceIdentifier");
+        static AndroidJavaObject api = new AndroidJavaObject("Janus.JanusAPI");
 #endif
 
         static NativeInterface()
         {
             var _ = JanusSDK.Instance;
-        }
-
-
-
-        private static void CallSdkWrapperWithIdentifier(string functionName, string identifier) {
-            if (!Application.isPlaying) { return; }
-            if (IsInvalidRuntime(identifier)) { return; }
-
-            object[] parameters = new object[1];
-            parameters[0] = identifier;
-            sdkWrapper.Call(functionName, parameters);
         }
 
         private static bool IsInvalidRuntime(string identifier) {
@@ -54,9 +44,7 @@ namespace Janus
             if (!Application.isPlaying) { return; }
             if (IsInvalidRuntime(null)) { return; }
 
-            object[] parameters = new object[1];
-
-            sdkWrapper.Call("setupSdk", parameters);
+            api.Call("janus_init");
         }
 
         internal static int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }

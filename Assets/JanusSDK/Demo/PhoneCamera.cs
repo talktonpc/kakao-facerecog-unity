@@ -19,7 +19,6 @@ public class PhoneCamera : MonoBehaviour
 {
     private bool _cameraAvailable = false;
     private WebCamTexture _frontCam = null;
-    //private Texture _defaultBackground = null;
     private Texture2D texture = null;
 
     public RawImage _background;
@@ -27,27 +26,23 @@ public class PhoneCamera : MonoBehaviour
 
     public JanusSDK janusSDK;
 
-
     void Start()
     {
         //===================================
         //iOS Janus SDK Initialize ...
         //===================================
-        //janusSDK.SetupSDK();
+        janusSDK.SetupSDK();
 
         //===================================
         //Confirm iOS Janus SDK Initialized.
         //===================================
-        string ver = janusSDK.GetVersion();
-        Debug.Log("SDK TEST: " + ver);
+        //string ver = janusSDK.GetVersion();
+        //Debug.Log("SDK TEST: " + ver);
 
-        janusSDK.SetPowerControl(false);
-        janusSDK.SetMaximumFaceNumber(1);
-        janusSDK.SetMinimumFaceSize(100);
-        janusSDK.SetFaceDetectionThreshold(0.9f);
-
-
-        //_defaultBackground = _background.texture;
+        //janusSDK.SetPowerControl(false);
+        //janusSDK.SetMaximumFaceNumber(1);
+        //janusSDK.SetMinimumFaceSize(100);
+        //janusSDK.SetFaceDetectionThreshold(0.9f);
 
         WebCamDevice[] devices = WebCamTexture.devices;
 
@@ -80,7 +75,6 @@ public class PhoneCamera : MonoBehaviour
         _cameraAvailable = true;
     }
 
-
     void Update()
     {
         if (!_cameraAvailable) {
@@ -111,26 +105,23 @@ public class PhoneCamera : MonoBehaviour
         colorArray.colors = new Color32[width * height];
         _frontCam.GetPixels32(colorArray.colors);
 
-        // SDK API Call Test ...
-        int numOfFaces = janusSDK.DetectFace_BGRA(ref colorArray.byteArray, width, height, false);
-        Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
+        //// SDK API Call Test ...
+        //int numOfFaces = janusSDK.DetectFace_BGRA(ref colorArray.byteArray, width, height, false);
+        //Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
 
-        for (int i = 0; i < numOfFaces; i++) {
+        //for (int i = 0; i < numOfFaces; i++) {
 
-            // ??? ???
-            int id = janusSDK.GetID(i);
-            Debug.Log("SDK TEST: GetID - face id : " + id);
+        //    int id = janusSDK.GetID(i);
+        //    Debug.Log("SDK TEST: GetID - face id : " + id);
 
-            // ??? ??
-            float[] angles = System.Array.ConvertAll(new float[3], v => 0.0f);
+        //    float[] angles = System.Array.ConvertAll(new float[3], v => 0.0f);
 
-            janusSDK.GetFaceAngles(i, ref angles);
-            Debug.Log("SDK TEST: GetFaceAngles - face angles : " + angles[0] + "/" + angles[1] + "/" + angles[2]);
+        //    janusSDK.GetFaceAngles(i, ref angles);
+        //    Debug.Log("SDK TEST: GetFaceAngles - face angles : " + angles[0] + "/" + angles[1] + "/" + angles[2]);
 
-            // ??? ?? 5?
-            float[] facearea = System.Array.ConvertAll(new float[10], v => 0.0f);
-            janusSDK.GetAlignmentPoints(i, ref facearea);
+        //    float[] facearea = System.Array.ConvertAll(new float[10], v => 0.0f);
+        //    janusSDK.GetAlignmentPoints(i, ref facearea);
 
-        }
+        //}
     }
 }
