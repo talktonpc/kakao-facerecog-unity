@@ -212,11 +212,6 @@ void doClose() {
     [jo close];
 }
 
-// version
-// char* getVersion() {
-//     NSString* ns = [jo getVersion];
-//     return JanusSDKMakeCString(ns);
-// }
 char* janus_version() {
     NSString* ns = [jo getVersion];
     return JanusSDKMakeCString(ns);

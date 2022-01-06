@@ -4,10 +4,15 @@ using UnityEngine;
 namespace Janus {
     public class JanusSDK: MonoBehaviour {
         static JanusSDK instance;
+        NativeInterface nativeinterface;
 
         void Awake() {
             if (instance == null) {
                 instance = this;
+                if (nativeinterface == null)
+                {
+                    nativeinterface = new NativeInterface();
+                }
             } else if (instance != this) {
                 Destroy(gameObject);
             }
@@ -86,13 +91,6 @@ namespace Janus {
             NativeInterface.SetPowerControl(b);
         }
 
-        // NOT SUPPORTED YET!
-        // public int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
-        //     return NativeInterface.LoadGalleryFeature(ref gallery_features, numOfIdx);
-        // }
-        // public int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) {
-        //    return NativeInterface.AddGalleryFeature(ref gallery_features, numOfIdx);
-        // }
         public string GetRecognizedName(int idx) {
             return NativeInterface.GetRecognizedName(idx);
         }
@@ -111,7 +109,7 @@ namespace Janus {
         public int SetMaximumFaceNumber(int cnt) {
             return NativeInterface.SetMaximumFaceNumber(cnt);
         }
-        public int SetMinimumFaceSize(int size) {
+        public bool SetMinimumFaceSize(int size) {
             return NativeInterface.SetMinimumFaceSize(size);
         }
         public int ClearDB() {

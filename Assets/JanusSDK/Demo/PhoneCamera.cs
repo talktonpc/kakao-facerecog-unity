@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Janus;
 using System.Runtime.InteropServices;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
-[StructLayout(LayoutKind.Explicit)]
-public struct Color32Array
-{
-    [FieldOffset(0)]
-    public byte[] byteArray;
+//[StructLayout(LayoutKind.Explicit, Pack = 1)]
+//public struct Color32Array
+//{
+//    [FieldOffset(0)]
+//    public Color32[] colors;
 
-    [FieldOffset(0)]
-    public Color32[] colors;
-}
+//    [FieldOffset(0)]
+//    public byte[] byteArray;
+//}
 
 public class PhoneCamera : MonoBehaviour
 {
@@ -29,20 +32,15 @@ public class PhoneCamera : MonoBehaviour
     void Start()
     {
         //===================================
-        //iOS Janus SDK Initialize ...
-        //===================================
-        janusSDK.SetupSDK();
-
-        //===================================
         //Confirm iOS Janus SDK Initialized.
         //===================================
-        //string ver = janusSDK.GetVersion();
-        //Debug.Log("SDK TEST: " + ver);
+        string ver = janusSDK.GetVersion();
+        Debug.Log("SDK TEST: " + ver);
 
-        //janusSDK.SetPowerControl(false);
-        //janusSDK.SetMaximumFaceNumber(1);
-        //janusSDK.SetMinimumFaceSize(100);
-        //janusSDK.SetFaceDetectionThreshold(0.9f);
+        janusSDK.SetPowerControl(false);
+        janusSDK.SetMaximumFaceNumber(1);
+        janusSDK.SetMinimumFaceSize(100);
+        //janusSDK.SetFaceDetectionThreshold(0.9f); bool return call problem !
 
         WebCamDevice[] devices = WebCamTexture.devices;
 
@@ -101,13 +99,28 @@ public class PhoneCamera : MonoBehaviour
         int width = _frontCam.width;
         int height = _frontCam.height;
 
-        Color32Array colorArray = new Color32Array();
-        colorArray.colors = new Color32[width * height];
-        _frontCam.GetPixels32(colorArray.colors);
+        //Color32Array colorArray = new Color32Array();
+        //colorArray.colors = new Color32[width * height];
+        //_frontCam.GetPixels32(colorArray.colors);
+
+        //byte[] a = colorArray.byteArray;
+
+        Color32[] colors = new Color32[width * height];
+        _frontCam.GetPixels32(colors);
+
+        byte[] buffer;
+        BinaryFormatter bF = new BinaryFormatter();
+        using (MemoryStream mS = new MemoryStream())
+        {
+            bF.Serialize(mS, colors);
+            mS.Position = 0;
+            buffer = new byte[mS.Length];
+            mS.Read(buffer, 0, buffer.Length);
+        }
 
         //// SDK API Call Test ...
-        //int numOfFaces = janusSDK.DetectFace_BGRA(ref colorArray.byteArray, width, height, false);
-        //Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
+        int numOfFaces = janusSDK.DetectFace_BGRA(ref buffer, width, height, false);
+        Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
 
         //for (int i = 0; i < numOfFaces; i++) {
 
