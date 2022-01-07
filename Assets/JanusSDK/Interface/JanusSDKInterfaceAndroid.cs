@@ -17,6 +17,7 @@
 //
 
 #if UNITY_ANDROID
+using System;
 using UnityEngine;
 
 namespace Janus
@@ -34,6 +35,7 @@ namespace Janus
         static NativeInterface()
         {
             sdk = JanusSDK.Instance;
+            AndroidJNI.AttachCurrentThread();
         }
 
         private static bool IsInvalidRuntime(string identifier) {
@@ -45,87 +47,105 @@ namespace Janus
             if (!Application.isPlaying) { return; }
             if (IsInvalidRuntime(null)) { return; }
 
-            api.Call("janus_init");
+            api.CallStatic("janus_init");
         }
 
-        internal static int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }
-        internal static int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }
-        internal static int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return 0; }
-
-        internal static int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
-            if (!Application.isPlaying) { return -1; }
-            if (IsInvalidRuntime(null)) { return -1; }
-
-            object[] parameters = new object[] { img, width, height, bRecognize };
-
-            //Android SDK: format RGBA
-            return api.Call<int>("detectFaceRGBA", parameters);
-            //return api.Call<int>("detectFaceRGBA", (byte[])img, width, height, bRecognize);
+        internal static string GetVersion()
+        {
+            return api.Call<string>("getVersion").ToString();
         }
 
-        internal static int GetFacialPoints(int idx, ref float[] pts) { return 0; }
-
-        internal static int GetAlignmentPoints(int idx, ref float[] pts) { return 0; }
-        internal static int GetFacialRect(int idx, ref int[] pRect) { return 0; }
-        internal static int GetFDRect(int idx, ref int[] pRect) { return 0; }
-        internal static int GetFacialProb(int idx) { return 0; }
-
-        internal static int GetFaceFeature(int idx, ref float[] feature) { return 0; }
-        internal static int GetFaceAngles(int idx, ref float[] angles) { return 0; }
-        internal static int GetID(int idx) { return 0; }
-
-        internal static int GetLiveness(int idx) { return 0; }
-        internal static float GetMaskLevel(int idx) { return 0; }
-        internal static int GetAttributeEnabled(bool b) { return 0; }
-
-        internal static int GetCurrentPowerState() { return 0; }
-        internal static void SetPowerControl(bool b) {
-        }
-
-        internal static int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) { return 0; }
-        internal static int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) { return 0; }
-        internal static string GetRecognizedName(int idx) { return null; }
-        internal static string GetPipelineLog() { return null; }
-        internal static string GetFaceLog(int idx) { return null; }
-
-        internal static int SetFaceRecognitionThreshold(float value) {
+        internal static int SetFaceRecognitionThreshold(float value)
+        {
             object[] parameters = new object[1];
             parameters[0] = value;
 
             return api.Call<int>("setFaceRecognitionThreshold", parameters);
         }
-        
-        internal static void SetFaceDetectionThreshold(float value) {
+
+        internal static void SetFaceDetectionThreshold(float value)
+        {
             object[] parameters = new object[1];
             parameters[0] = value;
 
             api.Call<bool>("setFaceDetectionThreshold", parameters);
         }
-        
-        internal static int SetMaximumFaceNumber(int cnt) {
+
+        internal static int SetMaximumFaceNumber(int cnt)
+        {
             object[] parameters = new object[1];
             parameters[0] = cnt;
 
             return api.Call<int>("setMaxNumOfFaces", parameters);
         }
-        
-        internal static bool SetMinimumFaceSize(int size) {
+
+        internal static bool SetMinimumFaceSize(int size)
+        {
             object[] parameters = new object[1];
             parameters[0] = size;
 
             return api.Call<bool>("setMinFaceSize", parameters);
         }
 
-        internal static int ClearDB() { return 0; }
-        internal static int EraseFaceIDFromDB(string pID) { return 0; }
+        internal static int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize)
+        {
+            if (!Application.isPlaying) { return -1; }
+            if (IsInvalidRuntime(null)) { return -1; }
 
-        internal static int DoReInit() { return 0; }
-        internal static int DoFinalize() { return 0; }
-        internal static void DoClose() { }
-        
-        internal static string GetVersion() {
-            return api.Call<string>("getVersion").ToString();
+            object[] parameters = new object[] { img, width, height, bRecognize };
+
+            return api.Call<int>("detectFaceRGBA", parameters);
         }
+
+        internal static int DetectFace_RGBA(sbyte[] img, int width, int height, bool bRecognize)
+        {
+            if (!Application.isPlaying) { return -1; }
+            if (IsInvalidRuntime(null)) { return -1; }
+
+            object[] parameters = new object[] { img, width, height, bRecognize};
+
+            //return api.CallStatic<int>("janus_detect", parameters);
+            return api.Call<int>("detectFaceRGBA", parameters);
+        }
+
+        //=================================================================================================================================
+        // NOT IMPLEMENTED YET ! ---[[
+        internal static int TrackFace_RGBA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return -1; }
+        internal static int TrackFace_BGRA(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return -1; }
+        internal static int TrackFace_RGB(ref byte[] img, int width, int height, int angle_in_degree, bool bRecognize) { return -1; }
+
+        internal static int GetFacialPoints(int idx, ref float[] pts) { return -1; }
+
+        internal static int GetAlignmentPoints(int idx, ref float[] pts) { return -1; }
+        internal static int GetFacialRect(int idx, ref int[] pRect) { return -1; }
+        internal static int GetFDRect(int idx, ref int[] pRect) { return -1; }
+        internal static int GetFacialProb(int idx) { return -1; }
+
+        internal static int GetFaceFeature(int idx, ref float[] feature) { return -1; }
+        internal static int GetFaceAngles(int idx, ref float[] angles) { return -1; }
+        internal static int GetID(int idx) { return -1; }
+
+        internal static int GetLiveness(int idx) { return -1; }
+        internal static float GetMaskLevel(int idx) { return -1; }
+        internal static int GetAttributeEnabled(bool b) { return -1; }
+
+        internal static int GetCurrentPowerState() { return -1; }
+        internal static void SetPowerControl(bool b) {
+        }
+
+        internal static int LoadGalleryFeature(ref byte[] gallery_features, int numOfIdx) { return -1; }
+        internal static int AddGalleryFeature(ref byte[] gallery_features, int numOfIdx) { return -1; }
+        internal static string GetRecognizedName(int idx) { return null; }
+        internal static string GetPipelineLog() { return null; }
+        internal static string GetFaceLog(int idx) { return null; }
+
+        internal static int ClearDB() { return -1; }
+        internal static int EraseFaceIDFromDB(string pID) { return -1; }
+
+        internal static int DoReInit() { return -1; }
+        internal static int DoFinalize() { return -1; }
+        internal static void DoClose() { }
+        // NOT IMPLEMENTED YET ! ---]]
     }
 }
 #endif

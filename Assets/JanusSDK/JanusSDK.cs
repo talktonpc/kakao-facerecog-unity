@@ -46,7 +46,12 @@ namespace Janus {
         public int DetectFace_BGRA(ref byte[] img, int width, int height, bool bRecognize) {
             return NativeInterface.DetectFace_BGRA(ref img, width, height, bRecognize);
         }
-
+#if UNITY_ANDROID
+        public int DetectFace_RGBA(sbyte[] img, int width, int height, bool bRecognize)
+        {
+            return NativeInterface.DetectFace_RGBA(img, width, height, bRecognize);
+        }
+#endif
         public int GetFacialPoints(int idx, ref float[] pts) {
             return NativeInterface.GetFacialPoints(idx, ref pts);
         }

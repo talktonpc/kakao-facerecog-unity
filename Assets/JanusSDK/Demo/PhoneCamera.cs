@@ -7,22 +7,26 @@ using System.Runtime.InteropServices;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 
-//[StructLayout(LayoutKind.Explicit, Pack = 1)]
-//public struct Color32Array
-//{
-//    [FieldOffset(0)]
-//    public Color32[] colors;
+[StructLayout(LayoutKind.Explicit, Pack = 1)]
+public struct Color32Array
+{
+    [FieldOffset(0)]
+    public Color32[] colors;
 
-//    [FieldOffset(0)]
-//    public byte[] byteArray;
-//}
+    [FieldOffset(0)]
+    public byte[] byteArray;
+
+    [FieldOffset(0)]
+    public sbyte[] sbyteArray;
+}
 
 public class PhoneCamera : MonoBehaviour
 {
     private bool _cameraAvailable = false;
     private WebCamTexture _frontCam = null;
-    private Texture2D texture = null;
 
     public RawImage _background;
     public AspectRatioFitter fit;
@@ -40,15 +44,12 @@ public class PhoneCamera : MonoBehaviour
         janusSDK.SetPowerControl(false);
         janusSDK.SetMaximumFaceNumber(1);
         janusSDK.SetMinimumFaceSize(100);
-        //janusSDK.SetFaceDetectionThreshold(0.9f); bool return call problem !
+        janusSDK.SetFaceDetectionThreshold(0.9f);
 
         WebCamDevice[] devices = WebCamTexture.devices;
 
         if (devices.Length == 0) {
             _cameraAvailable = false;
-
-            Debug.Log("No device found.");
-
             return;
         }
 
@@ -59,14 +60,11 @@ public class PhoneCamera : MonoBehaviour
         }
 
         if (_frontCam == null) {
-            Debug.Log("No front camera device found.");
             _cameraAvailable = false;
             return;
         }
 
         Debug.Log("Camera play ...");
-
-        texture = new Texture2D(_frontCam.width, _frontCam.height, TextureFormat.ARGB32, false);
 
         _frontCam.Play();
         _background.material.mainTexture = _frontCam;
@@ -89,6 +87,31 @@ public class PhoneCamera : MonoBehaviour
         _background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
     }
 
+    private byte[] Color32ArrayToByteArray(Color32[] colors)
+    {
+        if (colors == null || colors.Length == 0)
+            return null;
+
+        int lengthOfColor32 = Marshal.SizeOf(typeof(Color32));
+        int length = lengthOfColor32 * colors.Length;
+        byte[] bytes = new byte[length];
+
+        GCHandle handle = default(GCHandle);
+        try
+        {
+            handle = GCHandle.Alloc(colors, GCHandleType.Pinned);
+            IntPtr ptr = handle.AddrOfPinnedObject();
+            Marshal.Copy(ptr, bytes, 0, length);
+        }
+        finally
+        {
+            if (handle != default(GCHandle))
+                handle.Free();
+        }
+
+        return bytes;
+    }
+
     private void LateUpdate()
     {
         if (!_cameraAvailable)
@@ -99,42 +122,28 @@ public class PhoneCamera : MonoBehaviour
         int width = _frontCam.width;
         int height = _frontCam.height;
 
-        //Color32Array colorArray = new Color32Array();
-        //colorArray.colors = new Color32[width * height];
-        //_frontCam.GetPixels32(colorArray.colors);
+        Color32Array colorArray = new Color32Array();
+        colorArray.colors = new Color32[width * height];
+        _frontCam.GetPixels32(colorArray.colors);
 
-        //byte[] a = colorArray.byteArray;
+#if UNITY_ANDROID
+        colorArray.byteArray = Color32ArrayToByteArray(colorArray.colors);
+        sbyte[] data = Array.ConvertAll(colorArray.byteArray, b => unchecked((sbyte)b));
 
-        Color32[] colors = new Color32[width * height];
-        _frontCam.GetPixels32(colors);
-
-        byte[] buffer;
-        BinaryFormatter bF = new BinaryFormatter();
-        using (MemoryStream mS = new MemoryStream())
-        {
-            bF.Serialize(mS, colors);
-            mS.Position = 0;
-            buffer = new byte[mS.Length];
-            mS.Read(buffer, 0, buffer.Length);
-        }
-
-        //// SDK API Call Test ...
-        int numOfFaces = janusSDK.DetectFace_BGRA(ref buffer, width, height, false);
+        int numOfFaces = janusSDK.DetectFace_RGBA(data, width, height, false);
         Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
+#endif
 
-        //for (int i = 0; i < numOfFaces; i++) {
+#if UNITY_IOS
+        for (int i = 0; i < numOfFaces; i++) {
 
-        //    int id = janusSDK.GetID(i);
-        //    Debug.Log("SDK TEST: GetID - face id : " + id);
+            float[] angles = System.Array.ConvertAll(new float[3], v => 0.0f);
+            janusSDK.GetFaceAngles(i, ref angles);
+            Debug.Log("SDK TEST: GetFaceAngles - face angles : " + angles[0] + "/" + angles[1] + "/" + angles[2]);
 
-        //    float[] angles = System.Array.ConvertAll(new float[3], v => 0.0f);
-
-        //    janusSDK.GetFaceAngles(i, ref angles);
-        //    Debug.Log("SDK TEST: GetFaceAngles - face angles : " + angles[0] + "/" + angles[1] + "/" + angles[2]);
-
-        //    float[] facearea = System.Array.ConvertAll(new float[10], v => 0.0f);
-        //    janusSDK.GetAlignmentPoints(i, ref facearea);
-
-        //}
+            float[] facearea = System.Array.ConvertAll(new float[10], v => 0.0f);
+            janusSDK.GetAlignmentPoints(i, ref facearea);
+        }
+#endif
     }
 }
