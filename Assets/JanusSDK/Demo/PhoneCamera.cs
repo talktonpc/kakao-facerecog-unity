@@ -1,14 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using Janus;
-using System.Runtime.InteropServices;
-using System;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using Unity.Collections;
-using Unity.Collections.LowLevel.Unsafe;
 
 [StructLayout(LayoutKind.Explicit, Pack = 1)]
 public struct Color32Array
@@ -87,6 +81,7 @@ public class PhoneCamera : MonoBehaviour
         _background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
     }
 
+#if UNITY_ANDROID
     private byte[] Color32ArrayToByteArray(Color32[] colors)
     {
         if (colors == null || colors.Length == 0)
@@ -111,6 +106,7 @@ public class PhoneCamera : MonoBehaviour
 
         return bytes;
     }
+#endif
 
     private void LateUpdate()
     {
@@ -131,8 +127,13 @@ public class PhoneCamera : MonoBehaviour
         sbyte[] data = Array.ConvertAll(colorArray.byteArray, b => unchecked((sbyte)b));
 
         int numOfFaces = janusSDK.DetectFace_RGBA(data, width, height, false);
-        Debug.Log("SDK TEST: DetectFace_RGBA - face detected : " + numOfFaces);
 #endif
+
+#if UNITY_IOS
+        int numOfFaces = janusSDK.DetectFace_GBRA(ref colorArray.byteArray, width, height, false);
+#endif
+
+        Debug.Log("SDK TEST: face detected : " + numOfFaces);
 
 #if UNITY_IOS
         for (int i = 0; i < numOfFaces; i++) {

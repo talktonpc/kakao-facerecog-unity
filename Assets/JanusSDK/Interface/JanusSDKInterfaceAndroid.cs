@@ -104,7 +104,6 @@ namespace Janus
 
             object[] parameters = new object[] { img, width, height, bRecognize};
 
-            //return api.CallStatic<int>("janus_detect", parameters);
             return api.Call<int>("detectFaceRGBA", parameters);
         }
 
