@@ -22,6 +22,10 @@ public class PhoneCamera : MonoBehaviour
     private bool _cameraAvailable = false;
     private WebCamTexture _frontCam = null;
 
+    public float detectPerSeconds = 3.0f;
+    private float stateSyncTimer;
+    private bool processDetection = false;
+
     public RawImage _background;
     public AspectRatioFitter fit;
 
@@ -115,6 +119,22 @@ public class PhoneCamera : MonoBehaviour
             return;
         }
 
+        if (stateSyncTimer <= 0)
+        {
+            stateSyncTimer = detectPerSeconds;
+            processDetection = true;
+        }
+
+        stateSyncTimer -= Time.deltaTime;
+
+        if (!processDetection)
+        {
+            return;
+        }
+        else {
+            processDetection = false;
+        }
+
         int width = _frontCam.width;
         int height = _frontCam.height;
 
@@ -132,7 +152,6 @@ public class PhoneCamera : MonoBehaviour
 #if UNITY_IOS
         int numOfFaces = janusSDK.DetectFace_GBRA(ref colorArray.byteArray, width, height, false);
 #endif
-
         Debug.Log("SDK TEST: face detected : " + numOfFaces);
 
 #if UNITY_IOS
@@ -146,5 +165,12 @@ public class PhoneCamera : MonoBehaviour
             janusSDK.GetAlignmentPoints(i, ref facearea);
         }
 #endif
+    }
+
+    private int DetectFace(sbyte[] data, int width, int height) {
+
+        int numOfFaces = janusSDK.DetectFace_RGBA(data, width, height, false);
+
+        return 0;
     }
 }

@@ -410,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce3d2414e3f24349955cae04bb794ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectPerSeconds: 10
   _background: {fileID: 71779798}
   fit: {fileID: 71779800}
   janusSDK: {fileID: 223974227}
